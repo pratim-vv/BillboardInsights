@@ -1,10 +1,22 @@
+"""
+date_tools.py
+
+This module provides utility functions for working with dates in regards to the Billboard Hot 100 charts.
+
+Includes functions for:
+- Generating dates within a specified timeframe and weekdays.
+- Retrieving the week of a Billboard chart in which the chart data is tallied from a provided URL.
+- Extracting the day of the week from a "Week of" string provided by Billboard.
+- Detecting days when the tallying weekday changes for tracking top songs of the week on the Billboard Hot 100 chart.
+"""
+
 
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from typing import List, Tuple
 
-def generate_dates(weekdays=[0], start_date=datetime(1958, 8, 4), end_date=datetime.now()):
+def generate_dates(weekdays=[0], start_date=datetime(1958, 8, 4), end_date=datetime.now()) -> List[str]:
     """
     Gets all dates between given times that correspond with given weekdays
 
@@ -15,7 +27,6 @@ def generate_dates(weekdays=[0], start_date=datetime(1958, 8, 4), end_date=datet
 
     Returns:
         dates (List[str]): List of all dates that fit within given timeframe and weekday parameter, formatted as "Year-Month-Day"
-    
     """
     dates = []
     current_date = start_date
@@ -25,7 +36,7 @@ def generate_dates(weekdays=[0], start_date=datetime(1958, 8, 4), end_date=datet
         current_date += timedelta(days=1)
     return dates
 
-def week_of(url):
+def week_of(url: str) -> str:
     """
     Gets chart week timefram given Billboard url
 
@@ -49,7 +60,6 @@ def get_day_of_week(date_string: str) -> str:
     
     Returns:
         day_of_week (str): Returns weekday of provided st5ring
-
     """
     date_part = date_string.split(" ")[-3:]
     reconstructed_date_string = " ".join(date_part)
@@ -80,3 +90,14 @@ def detect_day_switch() -> List[Tuple]:
 
 if __name__ == '__main__':
     print(detect_day_switch())
+
+    """
+    Output:
+    ('1958-08-04', 'Week of August 4, 1958', 'Monday')
+    ('1962-01-01', 'Week of January 6, 1962', 'Saturday')
+    ('1976-06-28', 'Week of July 4, 1976', 'Sunday')
+    ('1976-07-05', 'Week of July 10, 1976', 'Saturday')
+    ('2018-01-01', 'Week of January 3, 2018', 'Wednesday')
+    ('2018-01-08', 'Week of January 13, 2018', 'Saturday')
+    """
+
