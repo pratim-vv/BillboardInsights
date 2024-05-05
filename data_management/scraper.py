@@ -60,3 +60,22 @@ def get_hot100(week: str) -> List[str]:
     
     return chart_data
 
+def append_csv(dates: List[str], file_name='billboard_hot100.csv'):
+    """
+    Appends Billboard Hot100 chart data for multiple dates to a CSV file.
+
+    Parameters:
+        dates (List[str]): A list of charting weeks in the format "YYYY-MM-DD".
+        file_name (str): The name of the CSV file to which the data will be appended. 
+            Default is 'billboard_hot100.csv'.
+    """
+    with open(file_name, 'a', newline='') as csv_file:
+        writer = csv.writer(csv_file)
+        for date in dates:
+            hot100_data = get_hot100(date)
+            writer.writerows(hot100_data)
+
+if __name__ == '__main__':
+   dates = generate_dates(end_date=datetime(1962, 1, 1))[:-1]
+   append_csv(dates)
+
