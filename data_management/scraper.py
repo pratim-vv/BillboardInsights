@@ -76,6 +76,7 @@ def append_csv(dates: List[str], file_name='billboard_hot100.csv'):
             writer.writerows(hot100_data)
 
 if __name__ == '__main__':
-    dates = generate_dates(weekdays=[5], start_date=datetime(1976, 7, 4), end_date=datetime(2017, 12, 30))
-    append_csv(dates=dates)
+   dates = ['2018-01-03'] + generate_dates(weekdays=[5], start_date=datetime(2018, 1, 3))
+   append_csv(dates=dates)
+   
 
