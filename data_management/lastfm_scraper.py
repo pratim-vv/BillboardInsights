@@ -1,7 +1,20 @@
+"""
+lastfm_scraper.py
+
+This module provides functions for collecting song information from Last.fm
+
+Includes functions for:
+- Gathering the song tags of a given url corresponding to a track.
+- Collecting song metadata information given a search 
+- Creating a csv file easily access songs without repeated searches
+"""
+
+
 import requests
 from bs4 import BeautifulSoup
 from typing import List
 import json
+import csv
 
 BASE_URL = 'https://www.last.fm/'
 
