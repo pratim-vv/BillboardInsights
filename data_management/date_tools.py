@@ -67,7 +67,7 @@ def get_day_of_week(date_string: str) -> str:
     day_of_week = date_object.strftime("%A")
     return day_of_week
 
-def detect_day_switch() -> List[Tuple]:
+def detect_day_switch() -> List[Tuple[str, str, str]]:
     """
     All days in which the tallying weekday changes for tracking top songs of the week for the BillBoard Hot 100
 

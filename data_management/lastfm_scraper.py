@@ -6,18 +6,37 @@ import json
 BASE_URL = 'https://www.last.fm/'
 
 
-def get_tags(genre_url: str) -> str:
-    response = requests.get(genre_url)
+def get_tags(tag_url: str) -> str:
+    """
+    Retrieves song tags associated with a given URL.
+
+    Args:
+        tag_url (str): The URL of the genre.
+
+    Returns:
+        tags (str): The tags associated with the song URL, or 'Tag Error' if not found.
+    """
+    tags = 'Tag Error'
+    response = requests.get(tag_url)
     soup = BeautifulSoup(response.text, 'html.parser')
     hidden_div = soup.find('div', class_='hidden')
     if hidden_div:
         data_tealium_data = hidden_div.get('data-tealium-data')
         if data_tealium_data:
-            return json.loads(data_tealium_data)['tag']
-    return 'Tag Error'
+            tags = json.loads(data_tealium_data)['tag']
+    return tags
     
 
 def get_information(information: str) -> List[str]:
+    """
+    Retrieves song information related to a given search query.
+
+    Parameters:
+        information (str): Information for song identification, given in form of "Song Title Artist"
+
+    Returns:
+        song_information (List[str]): Song metadata from search query in the format of [Runtime, Tags, LastFm Reference]
+    """
     search_string = information.strip().replace(' ', '+')
     response = requests.get(BASE_URL + 'search?q=' + search_string)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -26,9 +45,10 @@ def get_information(information: str) -> List[str]:
         return ['Invalid Information', 'Invalid Information', 'Invalid Information']
     first_track = tracks.find('a')
     href_tag = first_track['href']
-    tags = get_tags(genre_url=BASE_URL[:-1] + href_tag + '/+tags')
+    tags = get_tags(tag_url=BASE_URL[:-1] + href_tag + '/+tags')
     length = soup.find('td', class_='chartlist-duration').get_text(strip=True)
-    return [length, tags, href_tag[7:]]
+    song_information = [length, tags, href_tag[7:]]
+    return song_information
     
 
 if __name__ == '__main__':
