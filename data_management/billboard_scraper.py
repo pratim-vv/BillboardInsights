@@ -1,4 +1,12 @@
+"""
+billboard_scraper.py
 
+This module provides techniques for retrieving and storing information from the billboard charts.
+
+Includes functions for:
+- Gathering all the tracks of a given chart week
+- Appending the master-list csv with updated charting track details
+"""
 from date_tools import generate_dates
 import requests
 from bs4 import BeautifulSoup
