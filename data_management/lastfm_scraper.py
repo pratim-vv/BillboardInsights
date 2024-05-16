@@ -117,7 +117,7 @@ def collection_song_information(file_name='song_information.csv', start_idx=0, e
     
 
 if __name__ == '__main__':
-    collection_song_information(end_idx=1500)
+    collection_song_information(start_idx=3001, end_idx=10000)
     
 
     
